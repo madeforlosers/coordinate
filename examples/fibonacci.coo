@@ -1,0 +1,7 @@
+push(1)
+push(1)
+while(get(0)<8000000)
+set(1,add(get(1),get(0)))
+set(0,subtract(get(1),get(0)))
+puts(get(0))
+endwhile()
