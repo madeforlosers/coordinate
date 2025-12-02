@@ -1,6 +1,6 @@
 push(0)
-while(get(0)<50)
-set(0,add(get(0),1))
+while(less(get(0),50))
+increment(0)
 set(1,0)
 set(2,get(0))
 while(get(2))

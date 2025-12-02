@@ -1,0 +1,8 @@
+push(toInt(ask(">")))
+push(0)
+push(0)
+while(less(get(1),get(0)))
+increment(2)
+set(1,add(get(1),not(fpart(divide(toInt(root(get(2),2)),2)))))
+endwhile()
+puts(get(2))
