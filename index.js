@@ -10,7 +10,10 @@ function splitExpr(item) {
 }
 
 var tape = [];
+var functionC = [];
+var funcargs = [];
 var i = 0;
+var temp_i = 0;
 var funcs = {
     "push": function (item) {
         tape.push(item);
@@ -71,6 +74,50 @@ var funcs = {
                 break;
             }
         }
+    },
+    "function": function (id) {
+        
+        if (functionC[0] == undefined) {
+            tape[id] = i;
+            let skip = 0;
+            for (let h = i + 1; h < codeSp.length; h++) {
+                if (codeSp[h].split("(")[0] == "function") {
+                    skip++;
+                }
+                if (codeSp[h].split("(")[0] == "endfunc" && skip != 0) {
+                    skip--;
+                }
+                if (codeSp[h].split("(")[0] == "endfunc" && skip == 0) {
+                    i = h
+                    break;
+                }
+
+            }
+        }
+    },
+    "endfunc": function () {
+
+        // nothing
+    },
+    "return":function(returned){
+        return returned;
+    },
+    "callfunc":function(id,arg1 = 0,arg2 = 0,arg3 = 0, arg4 = 0){
+        funcargs.push(arg1,arg2,arg3,arg4)
+        temp_i = i;
+        functionC.unshift(i);
+        let lastreturn = 0;
+        for(i = tape[id]; i < codeSp.length; i++){
+            lastreturn = runCommands(codeSp[i]);
+            if(codeSp[i].split("(")[0] == "return" )break;
+        }
+        i = functionC.shift();
+        funcargs.splice(-4);
+        return lastreturn;
+         
+    },
+    "getarg":function(id){
+        return funcargs.slice(-4)[id];
     },
     "if": function (thing) {
         if (!thing) {
@@ -184,6 +231,6 @@ function runFunc(input) {
 }
 codeSp = code.split("\n");
 for (i = 0; i < codeSp.length; i++) {
-    runCommands(codeSp[i])
+   runCommands(codeSp[i])
 }
 //console.log(tape)
