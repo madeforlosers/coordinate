@@ -1,3 +1,1 @@
-set(0,toInt(ask(">")))
-set(1,toInt(root(subtract(get(0),1),2)))
-puts(add(subtract(multiply(multiply(2,get(1)),add(get(1),1)),get(0)),2))
+puts(add(subtract(multiply(multiply(2,set(1,toInt(root(subtract(set(0,toInt(ask(">"))),1),2)))),add(get(1),1)),get(0)),2))

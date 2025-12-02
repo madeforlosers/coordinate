@@ -12,15 +12,17 @@ var temp_i = 0;
 var funcs = {
     "push": function (item) {
         tape.push(item);
+        return item;
     },
     "set": function (index, item) {
         tape[parseInt(index)] = item;
+        return item;
     },
     "increment": function (index) {
-        tape[parseInt(index)]++;
+        return tape[parseInt(index)]++;
     },
     "decrement":function(index){
-        tape[parseInt(index)]--;
+        return tape[parseInt(index)]--;
     },
     "ask": function (text) {
         return prompt(text);
@@ -75,6 +77,9 @@ var funcs = {
     },
     "toInt": function (number) {
         return parseInt(number)
+    },
+    "round": function (number) {
+        return Math.round(number);
     },
     "fpart": function (number) {
         return number - parseInt(number);
