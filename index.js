@@ -65,11 +65,11 @@ var funcs = {
     },
     "increment": function (index) {
         memory.set(index,memory.get(index)+1);
-        return memory.get(index);
+        return memory.get(index)-1;
     },
     "decrement":function(index){
         memory.set(index,memory.get(index)-1);
-        return memory.get(index);
+        return memory.get(index)+1;
     },
     "ask": function (text) {
         return prompt(text);
@@ -148,6 +148,12 @@ var funcs = {
     },
     "fpart": function (number) {
         return Nums.parseFloat(number) - Nums.parseInt(number);
+    },
+    "min":function(one,two){
+        return Math.min(...arguments.map(x=>Nums.parseFloat(x)))
+    },
+    "max":function(one,two){
+        return Math.max(...arguments.map(x=>Nums.parseFloat(x)))
     },
     "get": function (index) {
         return memory.get(index);
@@ -273,6 +279,21 @@ var funcs = {
     },
     "putsin":function(item){
         process.stdout.write(item.toString());
+    },
+    "find":function(string,sub){
+        if(typeof string != "string" || typeof sub != "string"){
+            throwError(2);
+        }
+        return string.indexOf(sub);
+    },
+    "replace":function(string,find,repl){
+        if(typeof string != "string" || typeof find != "string" || typeof repl != "string"){
+            throwError(2);
+        }
+        return string.split(find).join(repl);
+    },
+    "str":function(string){
+       return string.toString();
     }
 
 }
