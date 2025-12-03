@@ -1,7 +1,7 @@
 push(0)
 while(not(is(increment(0),101)))
 set(1,0)
-while(less(increment(1),add(toInt(divide(get(0),2)),1)))
+while(less(increment(1),add(int(divide(get(0),2)),1)))
 if(not(modulo(get(0),get(1))))
 putsin(add(get(1)," "))
 endif()

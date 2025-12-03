@@ -1,1 +1,1 @@
-puts(add(subtract(multiply(multiply(2,set(1,toInt(root(subtract(set(0,toInt(ask(">"))),1),2)))),add(get(1),1)),get(0)),2))
+puts(add(subtract(multiply(multiply(2,set(1,int(root(subtract(set(0,int(ask(">"))),1),2)))),add(get(1),1)),get(0)),2))

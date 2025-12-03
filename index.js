@@ -4,25 +4,72 @@ const prompt = require("prompt-sync")();
 const splitCom = (s, item = ",") => [...s].map(c => c == item & !(a += ("{[()]}".indexOf(c) + 4) % 7 - 3) ? `
 `: c, a = 0).join``
 
-var tape = [];
+function throwError(errornum){
+    let errors = [
+        "Out-of-bounds tape access", // 0
+        "Too little arguments given", // 1
+        "Argument type is invalid", // 2
+        "Divide by 0", // 3
+        "Item turned NaN" // 4
+    ]
+    console.log(`ERROR ${errornum}: ${errors[errornum]}\nat line ${i+1} at command ${curFunc}`)
+    process.exit()
+}
+class Nums {
+    static parseInt(item){
+        if(isNaN(parseInt(item))){
+            throwError(4);
+        }
+        return parseInt(item);
+    }
+    static parseFloat(item){
+        if(isNaN(parseFloat(item))){
+            throwError(4);
+        }
+        return parseFloat(item);
+    }
+    
+}
+class Memory {
+    tape = [];
+    constructor() {
+        this.tape = [];
+    }
+    get(index){
+        if(this.tape[Nums.parseInt(index)] == undefined){
+            throwError(0);
+        }
+        return this.tape[Nums.parseInt(index)]
+    }
+    set(index,item){
+        this.tape[Nums.parseInt(index)] = item;
+    }
+    push(item){
+        this.tape.push(item);
+    }
+}
+var curFunc = "";
+var memory = new Memory();
 var functionC = [];
 var funcargs = [];
 var i = 0;
 var temp_i = 0;
 var funcs = {
     "push": function (item) {
-        tape.push(item);
+        memory.push(item);
         return item;
     },
     "set": function (index, item) {
-        tape[parseInt(index)] = item;
+        memory.set(index,item);
         return item;
     },
     "increment": function (index) {
-        return tape[parseInt(index)]++;
+        memory.set(index,memory.get(index)+1);
+        return memory.get(index);
     },
     "decrement":function(index){
-        return tape[parseInt(index)]--;
+        memory.set(index,memory.get(index)-1);
+        return memory.get(index);
     },
     "ask": function (text) {
         return prompt(text);
@@ -38,6 +85,9 @@ var funcs = {
     },
     "moreis": function (number1, number2) {
         return number1 >= number2
+    },
+    "hasnumber": function (number) {
+        return !isNaN(parseFloat(number))
     },
     "lessis": function (number1, number2) {
         return number1 <= number2
@@ -64,28 +114,43 @@ var funcs = {
         return !number
     },
     "modulo": function (number1, number2) {
+        if(Nums.parseFloat(number2) == 0){
+            throwError(3);
+        }
         return number1 % number2
     },
     "divide": function (number1, number2) {
+        if(Nums.parseFloat(number2) == 0){
+            throwError(3);
+        }
         return number1 / number2
     },
     "exp": function (number1, number2) {
         return number1 ** number2
     },
     "root": function (number1, number2) {
-        return Math.pow(number1, (1 / number2))
+        if(Nums.parseFloat(number2) == 0){
+            throwError(3);
+        }
+        return Math.pow(Nums.parseFloat(number1), (1 / Nums.parseFloat(number2)))
     },
-    "toInt": function (number) {
-        return parseInt(number)
+    "int": function (number) {
+        return Nums.parseInt(number);
+    },
+    "float": function (number) {
+        return Nums.parseFloat(number);
     },
     "round": function (number) {
-        return Math.round(number);
+        return Math.round(Nums.parseFloat(number));
+    },
+    "ceil": function (number) {
+        return Math.ceil(Nums.parseFloat(number));
     },
     "fpart": function (number) {
-        return number - parseInt(number);
+        return Nums.parseFloat(number) - Nums.parseInt(number);
     },
     "get": function (index) {
-        return tape[parseInt(index)]
+        return memory.get(index);
     },
     "else": function () {
         let skip = 0;
@@ -105,7 +170,7 @@ var funcs = {
     "function": function (id) {
         
         if (functionC[0] == undefined) {
-            tape[id] = i;
+            memory.set(id,i);
             let skip = 0;
             for (let h = i + 1; h < codeSp.length; h++) {
                 if (codeSp[h].split("(")[0] == "function") {
@@ -134,7 +199,7 @@ var funcs = {
         temp_i = i;
         functionC.unshift(i);
         let lastreturn = 0;
-        for(i = tape[id]; i < codeSp.length; i++){
+        for(i = memory.get(id); i < codeSp.length; i++){
             lastreturn = runCommands(codeSp[i]);
             if(codeSp[i].split("(")[0] == "return" )break;
         }
@@ -144,7 +209,7 @@ var funcs = {
          
     },
     "getarg":function(id){
-        return funcargs.slice(-4)[id];
+        return funcargs.slice(-4)[Nums.parseInt(id)];
     },
     "if": function (thing) {
         if (!thing) {
@@ -214,6 +279,8 @@ var funcs = {
 
 code = fs.readFileSync("input.coo", { encoding: "utf8" })
 
+
+
 function runCommands(input, nested = false) {
 
     if (input.match(/^\"[^\"]+\"$/g) != null) {
@@ -245,10 +312,14 @@ function runCommands(input, nested = false) {
 
 function runFunc(input) {
     let getFunc = input.split("(")[0];
-
+    curFunc = getFunc;
     let getArg = splitCom(input.replace(input.match(/\w+\(/g)[0], "").slice(0, -1)).split("\n")
     getArg = getArg.filter(x => x != undefined && x != ",")
     //console.log(getArg)
+    if(funcs[getFunc].length > getArg.filter(x=>x!='' && x!=undefined).length){
+        throwError(1);
+    }
+   // console.log(getArg.filter(x=>x!='' && x!=undefined))
     return funcs[getFunc](...getArg.map(x => runCommands(x, true)))
 }
 codeSp = code.split("\n");

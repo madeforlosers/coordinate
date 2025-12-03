@@ -1,4 +1,4 @@
-push(toInt(ask("number? ")))
+push(int(ask("number? ")))
 while(not(is(get(0),1)))
 puts(get(0))
 if(is(modulo(get(0),2),1))
