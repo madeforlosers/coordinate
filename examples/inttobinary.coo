@@ -1,0 +1,7 @@
+function(1)
+if(int(getarg(0)))
+return(add(callfunc(1,str(rightshift(getarg(0),1))),modulo(getarg(0),2)))
+endif()
+return()
+endfunc()
+puts(callfunc(1,ask(">")))
