@@ -92,21 +92,36 @@ var funcs = {
         return prompt(text);
     },
     "more": function (number1, number2) {
+        if (typeof number1 == 'object') {
+            return number1.map(x => x > number2);
+        }
         return number1 > number2
     },
     "less": function (number1, number2) {
+        if (typeof number1 == 'object') {
+            return number1.map(x => x < number2);
+        }
         return number1 < number2
     },
     "moreis": function (number1, number2) {
+        if (typeof number1 == 'object') {
+            return number1.map(x => x >= number2);
+        }
         return number1 >= number2
     },
     "hasnumber": function (number) {
         return !isNaN(parseFloat(number))
     },
     "lessis": function (number1, number2) {
+        if (typeof number1 == 'object') {
+            return number1.map(x => x <= number2);
+        }
         return number1 <= number2
     },
     "is": function (number1, number2) {
+        if (typeof number1 == 'object') {
+            return number1.map(x => x == number2);
+        }
         return number1 == number2
     },
     "leftshift": function (number1, number2) {
