@@ -8,3 +8,5 @@ If you want, Please help me with cleaning up my code. I'm trying to right now. I
 Run `node index.js [filename]`.
 
 Please see the wiki.
+
+You need `fs` and `prompt-sync`.
