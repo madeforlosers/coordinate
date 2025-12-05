@@ -463,7 +463,12 @@ var funcs = {
 
 }
 
-code = fs.readFileSync("input.coo", { encoding: "utf8" })
+if(process.argv[2] == undefined){
+    console.log("please enter a filename in arguments")
+    process.exit();
+}
+
+code = fs.readFileSync(process.argv[2], { encoding: "utf8" })
 
 
 
