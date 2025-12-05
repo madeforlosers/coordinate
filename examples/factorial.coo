@@ -1,0 +1,2 @@
+summation("set(1,multiply(get(1),sumvar(0)))",1,push(push(int(ask(">")))))
+puts(get(1))

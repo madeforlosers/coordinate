@@ -1,5 +1,1 @@
-push(0)
-push(int(ask(">")))
-while(less(get(0),get(1)))
-puts(set(2,ceil(divide(multiply(subtract(exp(2,increment(0)),1),2),3))))
-endwhile()
+summation("puts(ceil(divide(multiply(subtract(exp(2,sumvar(0)),1),2),3)))",0,ask(">"))

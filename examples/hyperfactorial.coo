@@ -1,0 +1,5 @@
+push(exp(push(int(ask(">"))),get(0)))
+while(decrement(0))
+set(1,multiply(get(1),exp(get(0),get(0))))
+endwhile()
+puts(get(1))

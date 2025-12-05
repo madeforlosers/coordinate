@@ -1,5 +1,4 @@
-push(1)
-push(1)
+push(push(1))
 while(less(get(0),8000000))
 puts(set(0,subtract(set(1,add(get(1),get(0))),get(0))))
 endwhile()

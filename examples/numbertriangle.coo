@@ -1,0 +1,6 @@
+push(1)
+push(int(ask(">")))
+push(" ")
+while(lessis(increment(0),get(1)))
+summation("putsin(add(sumvar(0),get(2)))",1,get(0))
+endwhile(puts(" "))

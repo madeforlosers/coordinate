@@ -4,6 +4,7 @@
 */
 
 // basic require stuff
+const { error } = require("console");
 const fs = require("fs");
 const prompt = require("prompt-sync")();
 
@@ -14,9 +15,12 @@ function throwError(errornum) {
         "Too little arguments given", // 1
         "Argument type is invalid", // 2
         "Divide by 0", // 3
-        "Item turned NaN" // 4
+        "Item turned NaN", // 4
+        "Nested summation" // 5
+
     ]
     console.log(`ERROR ${errornum}: ${errors[errornum]}\nat line ${i + 1} at command ${curFunc}`)
+    console.log(memory.tape)
     process.exit()
 }
 
@@ -64,6 +68,8 @@ var memory = new Memory(); // memory access
 var functionC = []; // function called list for nesting functions
 var funcargs = []; // function args
 var i = 0; // increment
+var summation = [0,0,0];
+var summationRunning = false;
 
 // functions for the lang
 var funcs = {
@@ -193,6 +199,12 @@ var funcs = {
         }
         return Nums.parseInt(number);
     },
+    "abs": function (number) {
+        if (typeof number == 'object') {
+            return number.map(x => Math.abs(x));
+        }
+        return Math.abs(number);
+    },
     "float": function (number) {
         if (typeof number == 'object') {
             return number.map(x => Nums.parseFloat(x));
@@ -224,9 +236,15 @@ var funcs = {
         return Nums.parseFloat(number) - Nums.parseInt(number);
     },
     "min": function (...arguments) { // this shows an error but it works
+        if(typeof arguments[0] == "object"){
+            return Math.min(...arguments[0])
+        }
         return Math.min(...arguments.map(x => Nums.parseFloat(x)));
     },
     "max": function (...arguments) {
+        if(typeof arguments[0] == "object"){
+            return Math.max(...arguments[0])
+        }
         return Math.max(...arguments.map(x => Nums.parseFloat(x)));
     },
     "get": function (index) {
@@ -250,7 +268,7 @@ var funcs = {
     "function": function (id) {
 
         if (functionC[0] == undefined) {
-            memory.set(id, i);
+            memory.set(Nums.parseInt(id), i);
             let skip = 0;
             for (let h = i + 1; h < codeSp.length; h++) {
                 if (codeSp[h].split("(")[0] == "function") {
@@ -410,7 +428,38 @@ var funcs = {
             throwError(2);
         }
         return list.reduce((accumulator, currentValue) => Nums.parseFloat(accumulator) + Nums.parseFloat(currentValue), 0);
-    }
+    },
+    "piece": function (start,end) {
+        return memory.tape.slice(Nums.parseInt(start),Nums.parseInt(end)+1);
+    },
+    "copy":function(number,times){
+        return Array(Nums.parseInt(times)).fill(Nums.parseFloat(number));
+    },
+    "summation":function(string,start,end){
+        summation = [0,0,0]
+        if(typeof string != "string"){
+            throwError(2);
+        }
+        if(summationRunning){
+            throwError(5);
+        }
+        summationRunning = true;
+        
+        summation[1] = Nums.parseFloat(end);
+        accumulator = 0;
+        for(summation[0] = Nums.parseFloat(start); summation[0] < summation[1]; summation[0]++){
+           // console.log(accumulator)
+            accumulator += runCommands(string);
+            
+        }
+        summationRunning = false;
+        return accumulator;
+    },
+    "sumvar":function(id){
+        return Nums.parseInt(summation[Nums.parseInt(id)]);
+        
+    },
+    
 
 }
 
@@ -462,7 +511,7 @@ function runFunc(input) { // main function handler
 }
 
 // main code
-codeSp = code.split("\n");
+codeSp = code.split(/(?<!");.+(?!")$/gm).join("").split("\n").map(x=>x.trim());
 for (i = 0; i < codeSp.length; i++) {
     runCommands(codeSp[i])
 }

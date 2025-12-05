@@ -1,6 +1,4 @@
-push(int(ask(">")))
-push(0)
-push(0)
+push(push(multiply(push(int(ask(">"))),0)))
 while(less(set(1,add(get(1),not(fpart(divide(int(root(get(2),2)),2))))),get(0)))
 increment(2)
 endwhile()

@@ -1,0 +1,3 @@
+push(0)
+push(" ")
+summation("puts(pad(str(sumvar(0)),get(1),set(0,add(get(0),length(str(sumvar(0)))))))",ask(">"),add(int(ask(">")),1))

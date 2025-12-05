@@ -1,0 +1,1 @@
+puts(divide(add(root(5,2),1),2))

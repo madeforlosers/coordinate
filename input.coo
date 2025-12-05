@@ -1,6 +1,0 @@
-push(1)
-while(increment(0))
-if(is(get(0),sum(exp(int(chararray(str(get(0)))),length(str(get(0)))))))
-puts(get(0))
-endif()
-endwhile()
