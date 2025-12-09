@@ -6,7 +6,9 @@
 // basic require stuff
 const fs = require("fs");
 const prompt = require("prompt-sync")();
+const sp = require('synchronized-promise')
 
+const sharp = require("sharp");
 // basic error function
 function throwError(errornum) {
     let errors = [
@@ -24,7 +26,7 @@ function throwError(errornum) {
 }
 
 
-class Nums { 
+class Nums {
     // number class so we can handle erroring better
     // I plan on adding more stuff to this
     static parseInt(item) {
@@ -57,6 +59,12 @@ class Memory {
         this.tape[Nums.parseInt(index)] = item;
     }
     push(item) {
+        for (let n = 0; n < this.tape.length; n++) {
+            if (this.tape[n] == undefined) {
+                this.tape[n] = item;
+                return;
+            }
+        }
         this.tape.push(item);
     }
 }
@@ -67,7 +75,7 @@ var memory = new Memory(); // memory access
 var functionC = []; // function called list for nesting functions
 var funcargs = []; // function args
 var i = 0; // increment
-var summation = [0,0,0];
+var summation = [0, 0, 0];
 var summationRunning = false;
 
 // functions for the lang
@@ -157,6 +165,9 @@ var funcs = {
         return number1 ^ number2
     },
     "not": function (number) {
+        if (typeof number == 'object') {
+            return number.map(x => !x);
+        }
         return !number
     },
     "modulo": function (number1, number2) {
@@ -235,13 +246,13 @@ var funcs = {
         return Nums.parseFloat(number) - Nums.parseInt(number);
     },
     "min": function (...arguments) { // this shows an error but it works
-        if(typeof arguments[0] == "object"){
+        if (typeof arguments[0] == "object") {
             return Math.min(...arguments[0])
         }
         return Math.min(...arguments.map(x => Nums.parseFloat(x)));
     },
     "max": function (...arguments) {
-        if(typeof arguments[0] == "object"){
+        if (typeof arguments[0] == "object") {
             return Math.max(...arguments[0])
         }
         return Math.max(...arguments.map(x => Nums.parseFloat(x)));
@@ -401,6 +412,18 @@ var funcs = {
         }
         return string.split(find)
     },
+    "cut": function (string, beginning, end = -1) {
+        if (end == -1) {
+            return string.slice(beginning);
+        }
+        return string.slice(beginning, end);
+    },
+    "glue": function (list) {
+        if (typeof list != "object") {
+            throwError(2);
+        }
+        return list.join("");
+    },
     "chararray": function (string) {
         if (typeof string != "string") {
             throwError(2);
@@ -414,10 +437,13 @@ var funcs = {
         return string.charAt(Nums.parseInt(index));
     },
     "length": function (string) {
-        if (typeof string != "string") {
+        if (typeof string == "number") {
             throwError(2);
         }
         return string.length;
+    },
+    "empty": function () {
+        return "";
     },
     "str": function (string) {
         return string.toString();
@@ -428,41 +454,114 @@ var funcs = {
         }
         return list.reduce((accumulator, currentValue) => Nums.parseFloat(accumulator) + Nums.parseFloat(currentValue), 0);
     },
-    "piece": function (start,end) {
-        return memory.tape.slice(Nums.parseInt(start),Nums.parseInt(end)+1);
+    "piece": function (start, end) {
+        return memory.tape.slice(Nums.parseInt(start), Nums.parseInt(end) + 1);
     },
-    "copy":function(number,times){
+    "copy": function (number, times) {
         return Array(Nums.parseInt(times)).fill(Nums.parseFloat(number));
     },
-    "summation":function(string,start,end){
-        summation = [0,0,0]
-        if(typeof string != "string"){
+    "single": function (list, index) {
+        if (typeof list != "object") {
             throwError(2);
         }
-        if(summationRunning){
+        return list[Nums.parseInt(index)];
+    },
+    "reverse": function (string) {
+        return string.split("").reverse().join("");
+    },
+    "summation": function (string, start, end) {
+        summation = [0, 0, 0]
+        if (typeof string != "string") {
+            throwError(2);
+        }
+        if (summationRunning) {
             throwError(5);
         }
         summationRunning = true;
-        
+
         summation[1] = Nums.parseFloat(end);
         accumulator = 0;
-        for(summation[0] = Nums.parseFloat(start); summation[0] < summation[1]; summation[0]++){
-           // console.log(accumulator)
+        for (summation[0] = Nums.parseFloat(start); summation[0] < summation[1]; summation[0]++) {
+            // console.log(accumulator)
             accumulator += runCommands(string);
-            
+
         }
         summationRunning = false;
         return accumulator;
     },
-    "sumvar":function(id){
+    "sumvar": function (id) {
         return Nums.parseInt(summation[Nums.parseInt(id)]);
-        
+
     },
-    
+    "image": function (width, height, channels = 3) {
+        return sharp({
+            create: {
+                width: width,
+                height: height,
+                channels: channels,
+                background: { r: 255, g: 255, b: 255 }
+            }
+        })
+    },
+    "pixel": function (img, x, y, r, g=null, b=null) {
+
+        // this fucking sucks lmao
+        async function t(image){
+        arr = await image.toBuffer({ resolveWithObject: true })
+        if(typeof x == "object"){
+            for(h of x){
+        loc = (arr.info.width * Nums.parseInt(y * 3)) + Nums.parseInt(h * 3);
+        
+        arr.data[loc] = r;
+        arr.data[loc + 1] = g;
+        arr.data[loc + 2] = b;
+            }
+        }else
+        if(typeof y == "object"){
+            for(h of y){
+        loc = (arr.info.width * Nums.parseInt(h * 3)) + Nums.parseInt(x * 3);
+        
+        arr.data[loc] = r;
+        arr.data[loc + 1] = g;
+        arr.data[loc + 2] = b;
+            }
+        }else
+        if(typeof r == "object"){
+            inc_y = +(y == -1);
+            inc_x = +(x == -1);
+            iy=y
+            ix=x
+            for(h of r){
+        loc = (arr.info.width * Nums.parseInt(iy * 3)) + Nums.parseInt(ix * 3);
+        iy += inc_y
+        ix += inc_x
+
+        arr.data[loc] = h;
+        arr.data[loc + 1] = h;
+        arr.data[loc + 2] = h;
+            }
+        }else{
+        loc = (arr.info.width * Nums.parseInt(y * 3)) + Nums.parseInt(x * 3);
+
+
+        arr.data[loc] = r;
+        arr.data[loc + 1] = g;
+        arr.data[loc + 2] = b;
+            
+        }
+        return sharp(arr.data,{raw: {width: arr.info.width,height: arr.info.height,channels: arr.info.channels,}});
+    }
+        return sp(t)(img);
+    },
+    "print": function (image, name) {
+        image.toFile(name)
+
+    }
+
 
 }
 
-if(process.argv[2] == undefined){
+if (process.argv[2] == undefined) {
     console.log("please enter a filename in arguments")
     process.exit();
 }
@@ -515,7 +614,7 @@ function runFunc(input) { // main function handler
 }
 
 // main code
-codeSp = code.split(/(?<!");.+(?!")$/gm).join("").split("\n").map(x=>x.trim());
+codeSp = code.split(/(?<!");.+(?!")$/gm).join("").split("\n").map(x => x.trim());
 for (i = 0; i < codeSp.length; i++) {
     runCommands(codeSp[i])
 }
