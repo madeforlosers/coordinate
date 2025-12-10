@@ -9,4 +9,4 @@ Run `node index.js [filename]`.
 
 Please see the wiki.
 
-You need `fs` and `prompt-sync`.
+You need `fs`, `prompt-sync`, `sharp`, and `synchronized-promise` from NPM.
