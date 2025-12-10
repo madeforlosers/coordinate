@@ -1,5 +1,6 @@
 # Coordinate esolang
 
+this lang is a heavy work in progress
 
 My first esolang that actually allows you to put functions in arguments. How crazy.
 
