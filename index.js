@@ -138,9 +138,15 @@ var funcs = {
         return number1 == number2
     },
     "leftshift": function (number1, number2) {
+        if (typeof number1 == 'object') {
+            return number1.map(x => Nums.parseFloat(x) << Nums.parseFloat(number2));
+        }
         return Nums.parseFloat(number1) << Nums.parseFloat(number2)
     },
     "rightshift": function (number1, number2) {
+        if (typeof number1 == 'object') {
+            return number1.map(x => Nums.parseFloat(x) >> Nums.parseFloat(number2));
+        }
         return Nums.parseFloat(number1) >> Nums.parseFloat(number2)
     },
     "subtract": function (number1, number2) {
@@ -223,13 +229,13 @@ var funcs = {
     },
     "round": function (number) {
         if (typeof number == 'object') {
-            return number.map(x => x ** Math.round(Nums.parseFloat(x)));
+            return number.map(x => Math.round(Nums.parseFloat(x)));
         }
         return Math.round(Nums.parseFloat(number));
     },
     "ceil": function (number) {
         if (typeof number == 'object') {
-            return number.map(x => x ** Math.ceil(Nums.parseFloat(x)));
+            return number.map(x => Math.ceil(Nums.parseFloat(x)));
         }
         return Math.ceil(Nums.parseFloat(number));
     },
@@ -503,54 +509,54 @@ var funcs = {
             }
         })
     },
-    "pixel": function (img, x, y, r, g=null, b=null) {
+    "pixel": function (img, x, y, r, g = null, b = null) {
 
         // this fucking sucks lmao
-        async function t(image){
-        arr = await image.toBuffer({ resolveWithObject: true })
-        if(typeof x == "object"){
-            for(h of x){
-        loc = (arr.info.width * Nums.parseInt(y * 3)) + Nums.parseInt(h * 3);
-        
-        arr.data[loc] = r;
-        arr.data[loc + 1] = g;
-        arr.data[loc + 2] = b;
-            }
-        }else
-        if(typeof y == "object"){
-            for(h of y){
-        loc = (arr.info.width * Nums.parseInt(h * 3)) + Nums.parseInt(x * 3);
-        
-        arr.data[loc] = r;
-        arr.data[loc + 1] = g;
-        arr.data[loc + 2] = b;
-            }
-        }else
-        if(typeof r == "object"){
-            inc_y = +(y == -1);
-            inc_x = +(x == -1);
-            iy=y
-            ix=x
-            for(h of r){
-        loc = (arr.info.width * Nums.parseInt(iy * 3)) + Nums.parseInt(ix * 3);
-        iy += inc_y
-        ix += inc_x
+        async function t(image) {
+            arr = await image.toBuffer({ resolveWithObject: true })
+            if (typeof x == "object") {
+                for (h of x) {
+                    loc = (arr.info.width * Nums.parseInt(y * 3)) + Nums.parseInt(h * 3);
 
-        arr.data[loc] = h;
-        arr.data[loc + 1] = h;
-        arr.data[loc + 2] = h;
-            }
-        }else{
-        loc = (arr.info.width * Nums.parseInt(y * 3)) + Nums.parseInt(x * 3);
+                    arr.data[loc] = r;
+                    arr.data[loc + 1] = g;
+                    arr.data[loc + 2] = b;
+                }
+            } else
+                if (typeof y == "object") {
+                    for (h of y) {
+                        loc = (arr.info.width * Nums.parseInt(h * 3)) + Nums.parseInt(x * 3);
+
+                        arr.data[loc] = r;
+                        arr.data[loc + 1] = g;
+                        arr.data[loc + 2] = b;
+                    }
+                } else
+                    if (typeof r == "object") {
+                        inc_y = +(y == -1);
+                        inc_x = +(x == -1);
+                        iy = y
+                        ix = x
+                        for (h of r) {
+                            loc = (arr.info.width * Nums.parseInt(iy * 3)) + Nums.parseInt(ix * 3);
+                            iy += inc_y
+                            ix += inc_x
+
+                            arr.data[loc] = h;
+                            arr.data[loc + 1] = h;
+                            arr.data[loc + 2] = h;
+                        }
+                    } else {
+                        loc = (arr.info.width * Nums.parseInt(y * 3)) + Nums.parseInt(x * 3);
 
 
-        arr.data[loc] = r;
-        arr.data[loc + 1] = g;
-        arr.data[loc + 2] = b;
-            
+                        arr.data[loc] = r;
+                        arr.data[loc + 1] = g;
+                        arr.data[loc + 2] = b;
+
+                    }
+            return sharp(arr.data, { raw: { width: arr.info.width, height: arr.info.height, channels: arr.info.channels, } });
         }
-        return sharp(arr.data,{raw: {width: arr.info.width,height: arr.info.height,channels: arr.info.channels,}});
-    }
         return sp(t)(img);
     },
     "print": function (image, name) {
