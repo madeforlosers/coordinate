@@ -6,7 +6,7 @@
 // basic require stuff
 const fs = require("fs");
 const prompt = require("prompt-sync")();
-const sp = require('synchronized-promise')
+const sp = require('synchronized-promise');
 
 const sharp = require("sharp");
 // basic error function
@@ -33,13 +33,13 @@ class Nums {
         if (isNaN(parseInt(item))) {
             throwError(4);
         }
-        return parseInt(item);
+        return typeof item == "bigint"||typeof eval(item)=="bigint"?BigInt(item):parseInt(item);
     }
     static parseFloat(item) {
         if (isNaN(parseFloat(item))) {
             throwError(4);
         }
-        return parseFloat(item);
+        return typeof item == "bigint"||typeof eval(item)=="bigint"?BigInt(item):parseFloat(item);
     }
 
 }
@@ -84,6 +84,10 @@ var funcs = {
         // push item to the tape.
         memory.push(item);
         return item;
+    },
+    "bigint": function (item) {
+        // push item to the tape.
+        return BigInt(item);
     },
     "set": function (index, item) {
         // set index in tape to item
