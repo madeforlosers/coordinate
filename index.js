@@ -33,13 +33,13 @@ class Nums {
         if (isNaN(parseInt(item))) {
             throwError(4);
         }
-        return typeof item == "bigint"||typeof eval(item)=="bigint"?BigInt(item):parseInt(item);
+        return typeof item == "bigint"||item.toString().match(/^[0-9]+n$/) != null?BigInt(item):parseInt(item);
     }
     static parseFloat(item) {
         if (isNaN(parseFloat(item))) {
             throwError(4);
         }
-        return typeof item == "bigint"||typeof eval(item)=="bigint"?BigInt(item):parseFloat(item);
+        return typeof item == "bigint"||item.toString().match(/^[0-9]+n$/) != null?BigInt(item):parseFloat(item);
     }
 
 }
