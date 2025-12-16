@@ -466,6 +466,18 @@ var funcs = {
     "str": function (string) {
         return string.toString();
     },
+    "repeat": function (string,times) {
+        if(typeof string != "string"){
+            throwError(2);
+        }
+        return string.repeat(Nums.parseInt(times));
+    },
+    "recruit": function (list,item) {
+        if(typeof list != "object"){
+            throwError(2);
+        }
+        return [...list,item];
+    },
     "sum": function (list) {
         if (typeof list == "number" || typeof list == "string") {
             throwError(2);

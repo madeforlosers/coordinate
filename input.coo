@@ -4,3 +4,6 @@ while(less(get(0),256))
 puts(add(add(add(add(add(">",set(3,cut(str(summation("get(2)",0,set(1,int(root(get(0),2))))),1))),"[<"),get(3)),">-]<"),cut(str(summation("get(2)",0,subtract(get(0),exp(get(1),2)))),1)))
 increment(0)
 endwhile()
+
+;9839
+;258
