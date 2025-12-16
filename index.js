@@ -502,7 +502,7 @@ var funcs = {
         }
         return string.split("").reverse().join("");
     },
-    "summation": function (string, start, end) {
+    "summation": function (string, start, end,accumulate = true) {
         summation = [0, 0, 0]
         if (typeof string != "string") {
             throwError(2);
@@ -513,10 +513,11 @@ var funcs = {
         summationRunning = true;
 
         summation[1] = Nums.parseFloat(end);
-        accumulator = 0;
+        let accumulator = accumulate?0:[];
         for (summation[0] = Nums.parseFloat(start); summation[0] < summation[1]; summation[0]++) {
             // console.log(accumulator)
-            accumulator += runCommands(string);
+            if(accumulate)accumulator += runCommands(string);
+            else accumulator.push(runCommands(string));
 
         }
         summationRunning = false;

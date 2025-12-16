@@ -1,9 +1,13 @@
-push(int(ask(">")))
-push(int(ask(">")))
-push(subtract(get(1),get(0)))
+;push(int(ask(">")))
+;push(int(ask(">")))
+;push(subtract(get(1),get(0)))
+;while(moreis(subtract(get(1),get(0)),0))
+;push(increment(0))
+;push(decrement(1))
+;endwhile()
+;puts(piece(3,add(get(2),3)))
 
-while(moreis(subtract(get(1),get(0)),0))
-push(increment(0))
-push(decrement(1))
-endwhile()
+
+
+summation("is(push(increment(1)),push(decrement(0)))",0,push(subtract(push(int(ask(">"))),push(int(ask(">"))))))
 puts(piece(3,add(get(2),3)))
