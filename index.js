@@ -17,7 +17,8 @@ function throwError(errornum) {
         "Argument type is invalid", // 2
         "Divide by 0", // 3
         "Item turned NaN", // 4
-        "Nested summation" // 5
+        "Nested summation", // 5
+        "Ambiguous error :(" // 6
 
     ]
     console.log(`ERROR ${errornum}: ${errors[errornum]}\nat line ${i + 1} at command ${curFunc}`)
@@ -389,6 +390,13 @@ var funcs = {
     "puts": function (item) {
         console.log(item.toString())
     },
+    "file": function (file,data,flag) {
+        try{
+        fs.writeFileSync(file,data,{flag:flag});
+        }catch(e){
+            throwError(6);
+        }
+    },
     "putsin": function (item) {
         process.stdout.write(item.toString());
     },
@@ -599,7 +607,7 @@ function runCommands(input) { // starting function
 
 
 // helper function to deal with the daunting task of nested items
-const splitCom = (s, item = ",") => [...s].map(c => c == item & !(a += ("{[()]}".indexOf(c) + 4) % 7 - 3) ? `
+const splitCom = (s, item = ",") => [...s].map(c => c == item & !(a += ("\0\0()\0\0".indexOf(c) + 4) % 7 - 3) ? `
 `: c, a = 0).join``
 
 function runFunc(input) { // main function handler
