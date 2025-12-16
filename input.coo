@@ -1,9 +1,9 @@
-push(push(1))
-push("+")
-while(less(get(0),256))
-puts(add(add(add(add(add(">",set(3,cut(str(summation("get(2)",0,set(1,int(root(get(0),2))))),1))),"[<"),get(3)),">-]<"),cut(str(summation("get(2)",0,subtract(get(0),exp(get(1),2)))),1)))
-increment(0)
-endwhile()
+push(int(ask(">")))
+push(int(ask(">")))
+push(subtract(get(1),get(0)))
 
-;9839
-;258
+while(moreis(subtract(get(1),get(0)),0))
+push(increment(0))
+push(decrement(1))
+endwhile()
+puts(piece(3,add(get(2),3)))

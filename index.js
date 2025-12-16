@@ -497,6 +497,9 @@ var funcs = {
         return list[Nums.parseInt(index)];
     },
     "reverse": function (string) {
+        if(typeof string == "object"){
+            return string.reverse();
+        }
         return string.split("").reverse().join("");
     },
     "summation": function (string, start, end) {
