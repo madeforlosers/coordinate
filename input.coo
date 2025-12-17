@@ -1,0 +1,1 @@
+puts(single(split("dark light"," "),and(xor(code(push(ask(">")),0),code(get(0),1)),1)))

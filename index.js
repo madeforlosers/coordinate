@@ -598,6 +598,9 @@ var funcs = {
     "char": function (number) {
         return String.fromCharCode(Nums.parseInt(number));
     },
+    "code": function (string,id=0) {
+        return string.charCodeAt(id);
+    },
     "random": function () {
         return Math.random();
     },
