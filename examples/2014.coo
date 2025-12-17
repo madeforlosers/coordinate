@@ -1,1 +1,4 @@
-puts(add(add(multiply(multiply(multiply(push(push(length("abcdefghij"))),get(length("a"))),get(length("a"))),length("ab")),get(length("a"))),length("abcd")))
+putsin(length("ab"))
+putsin(length(empty()))
+putsin(length("a"))
+puts(length("abcd"))

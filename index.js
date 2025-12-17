@@ -18,7 +18,8 @@ function throwError(errornum) {
         "Divide by 0", // 3
         "Item turned NaN", // 4
         "Nested summation", // 5
-        "Ambiguous error :(" // 6
+        "Ambiguous error :(", // 6
+        "Item is undefined, maybe invalid char in string?", // 7
 
     ]
     console.log(`ERROR ${errornum}: ${errors[errornum]}\nat line ${i + 1} at command ${curFunc}`)
@@ -388,7 +389,10 @@ var funcs = {
         }
     },
     "puts": function (item) {
-        console.log(item.toString())
+        if(item == undefined){
+            throwError(7);
+        }
+        console.log(item.toString());
     },
     "file": function (file,data,flag) {
         try{
