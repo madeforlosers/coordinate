@@ -594,7 +594,13 @@ var funcs = {
     "print": function (image, name) {
         image.toFile(name)
 
-    }
+    },
+    "char": function (number) {
+        return String.fromCharCode(Nums.parseInt(number));
+    },
+    "random": function () {
+        return Math.random();
+    },
 
 
 }
