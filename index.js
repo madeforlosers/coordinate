@@ -35,13 +35,13 @@ class Nums {
         if (isNaN(parseInt(item))) {
             throwError(4);
         }
-        return typeof item == "bigint"||item.toString().match(/^[0-9]+n$/) != null?BigInt(item):parseInt(item);
+        return typeof item == "bigint" || item.toString().match(/^[0-9]+n$/) != null ? BigInt(item) : parseInt(item);
     }
     static parseFloat(item) {
         if (isNaN(parseFloat(item))) {
             throwError(4);
         }
-        return typeof item == "bigint"||item.toString().match(/^[0-9]+n$/) != null?BigInt(item):parseFloat(item);
+        return typeof item == "bigint" || item.toString().match(/^[0-9]+n$/) != null ? BigInt(item) : parseFloat(item);
     }
 
 }
@@ -114,73 +114,73 @@ var funcs = {
         if (typeof number1 == 'object') {
             return number1.map(x => x > number2);
         }
-        return number1 > number2
+        return number1 > number2;
     },
     "less": function (number1, number2) {
         if (typeof number1 == 'object') {
             return number1.map(x => x < number2);
         }
-        return number1 < number2
+        return number1 < number2;
     },
     "moreis": function (number1, number2) {
         if (typeof number1 == 'object') {
             return number1.map(x => x >= number2);
         }
-        return number1 >= number2
+        return number1 >= number2;
     },
     "hasnumber": function (number) {
-        return !isNaN(parseFloat(number))
+        return !isNaN(parseFloat(number));
     },
     "lessis": function (number1, number2) {
         if (typeof number1 == 'object') {
             return number1.map(x => x <= number2);
         }
-        return number1 <= number2
+        return number1 <= number2;
     },
     "is": function (number1, number2) {
         if (typeof number1 == 'object') {
             return number1.map(x => x == number2);
         }
-        return number1 == number2
+        return number1 == number2;
     },
     "leftshift": function (number1, number2) {
         if (typeof number1 == 'object') {
             return number1.map(x => Nums.parseFloat(x) << Nums.parseFloat(number2));
         }
-        return Nums.parseFloat(number1) << Nums.parseFloat(number2)
+        return Nums.parseFloat(number1) << Nums.parseFloat(number2);
     },
     "rightshift": function (number1, number2) {
         if (typeof number1 == 'object') {
             return number1.map(x => Nums.parseFloat(x) >> Nums.parseFloat(number2));
         }
-        return Nums.parseFloat(number1) >> Nums.parseFloat(number2)
+        return Nums.parseFloat(number1) >> Nums.parseFloat(number2);
     },
     "subtract": function (number1, number2) {
         if (typeof number1 == 'object') {
             return number1.map(x => x - number2);
         }
-        return number1 - number2
+        return number1 - number2;
     },
     "multiply": function (number1, number2) {
         if (typeof number1 == 'object') {
             return number1.map(x => x * number2);
         }
-        return number1 * number2
+        return number1 * number2;
     },
     "and": function (number1, number2) {
-        return number1 & number2
+        return number1 & number2;
     },
     "or": function (number1, number2) {
-        return number1 | number2
+        return number1 | number2;
     },
     "xor": function (number1, number2) {
-        return number1 ^ number2
+        return number1 ^ number2;
     },
     "not": function (number) {
         if (typeof number == 'object') {
             return number.map(x => !x);
         }
-        return !number
+        return !number;
     },
     "modulo": function (number1, number2) {
         if (Nums.parseFloat(number2) == 0) {
@@ -189,7 +189,7 @@ var funcs = {
         if (typeof number1 == 'object') {
             return number1.map(x => x % number2);
         }
-        return number1 % number2
+        return number1 % number2;
     },
     "divide": function (number1, number2) {
         if (Nums.parseFloat(number2) == 0) {
@@ -198,13 +198,13 @@ var funcs = {
         if (typeof number1 == 'object') {
             return number1.map(x => x / number2);
         }
-        return number1 / number2
+        return number1 / number2;
     },
     "exp": function (number1, number2) {
         if (typeof number1 == 'object') {
             return number1.map(x => x ** number2);
         }
-        return number1 ** number2
+        return number1 ** number2;
     },
     "root": function (number1, number2) {
         if (Nums.parseFloat(number2) == 0) {
@@ -213,7 +213,7 @@ var funcs = {
         if (typeof number1 == 'object') {
             return number1.map(x => Math.pow(Nums.parseFloat(x), (1 / Nums.parseFloat(number2))));
         }
-        return Math.pow(Nums.parseFloat(number1), (1 / Nums.parseFloat(number2)))
+        return Math.pow(Nums.parseFloat(number1), (1 / Nums.parseFloat(number2)));
     },
     "int": function (number) {
         if (typeof number == 'object') {
@@ -249,7 +249,7 @@ var funcs = {
         if (typeof number1 == 'object') {
             return number1.map(x => x + number2);
         }
-        return number1 + number2
+        return number1 + number2;
     },
     "fpart": function (number) {
         if (typeof number == 'object') {
@@ -259,13 +259,13 @@ var funcs = {
     },
     "min": function (...arguments) { // this shows an error but it works
         if (typeof arguments[0] == "object") {
-            return Math.min(...arguments[0])
+            return Math.min(...arguments[0]);
         }
         return Math.min(...arguments.map(x => Nums.parseFloat(x)));
     },
     "max": function (...arguments) {
         if (typeof arguments[0] == "object") {
-            return Math.max(...arguments[0])
+            return Math.max(...arguments[0]);
         }
         return Math.max(...arguments.map(x => Nums.parseFloat(x)));
     },
@@ -282,7 +282,7 @@ var funcs = {
                 skip--;
             }
             if (codeSp[h].split("(")[0] == "endif" && skip == 0) {
-                i = h
+                i = h;
                 break;
             }
         }
@@ -300,7 +300,7 @@ var funcs = {
                     skip--;
                 }
                 if (codeSp[h].split("(")[0] == "endfunc" && skip == 0) {
-                    i = h
+                    i = h;
                     break;
                 }
 
@@ -342,11 +342,11 @@ var funcs = {
                     skip--;
                 }
                 if (codeSp[h].split("(")[0] == "else" && skip == 0) {
-                    i = h
+                    i = h;
                     break;
                 }
                 if (codeSp[h].split("(")[0] == "endif" && skip == 0) {
-                    i = h
+                    i = h;
                     break;
                 }
 
@@ -367,7 +367,7 @@ var funcs = {
                     skip--;
                 }
                 if (codeSp[h].split("(")[0] == "endwhile" && skip == 0) {
-                    i = h
+                    i = h;
                     break;
                 }
             }
@@ -389,15 +389,15 @@ var funcs = {
         }
     },
     "puts": function (item) {
-        if(item == undefined){
+        if (item == undefined) {
             throwError(7);
         }
         console.log(item.toString());
     },
-    "file": function (file,data,flag) {
-        try{
-        fs.writeFileSync(file,data,{flag:flag});
-        }catch(e){
+    "file": function (file, data, flag) {
+        try {
+            fs.writeFileSync(file, data, { flag: flag });
+        } catch (e) {
             throwError(6);
         }
     },
@@ -414,7 +414,7 @@ var funcs = {
         if (typeof string != "string" || typeof char != "string") {
             throwError(2);
         }
-        return char.repeat(toLength - string.length) + string
+        return char.repeat(toLength - string.length) + string;
     },
     "replace": function (string, find, repl) {
         if (typeof string != "string" || typeof find != "string" || typeof repl != "string") {
@@ -432,7 +432,7 @@ var funcs = {
         if (typeof string != "string" || typeof find != "string") {
             throwError(2);
         }
-        return string.split(find)
+        return string.split(find);
     },
     "cut": function (string, beginning, end = -1) {
         if (end == -1) {
@@ -450,7 +450,7 @@ var funcs = {
         if (typeof string != "string") {
             throwError(2);
         }
-        return string.split("")
+        return string.split("");
     },
     "charat": function (string, index) {
         if (typeof string != "string") {
@@ -470,17 +470,17 @@ var funcs = {
     "str": function (string) {
         return string.toString();
     },
-    "repeat": function (string,times) {
-        if(typeof string != "string"){
+    "repeat": function (string, times) {
+        if (typeof string != "string") {
             throwError(2);
         }
         return string.repeat(Nums.parseInt(times));
     },
-    "recruit": function (list,item) {
-        if(typeof list != "object"){
+    "recruit": function (list, item) {
+        if (typeof list != "object") {
             throwError(2);
         }
-        return [...list,item];
+        return [...list, item];
     },
     "sum": function (list) {
         if (typeof list == "number" || typeof list == "string") {
@@ -501,13 +501,13 @@ var funcs = {
         return list[Nums.parseInt(index)];
     },
     "reverse": function (string) {
-        if(typeof string == "object"){
+        if (typeof string == "object") {
             return string.reverse();
         }
         return string.split("").reverse().join("");
     },
-    "summation": function (string, start, end,accumulate = true) {
-        summation = [0, 0, 0]
+    "summation": function (string, start, end, accumulate = true) {
+        summation = [0, 0, 0];
         if (typeof string != "string") {
             throwError(2);
         }
@@ -517,10 +517,10 @@ var funcs = {
         summationRunning = true;
 
         summation[1] = Nums.parseFloat(end);
-        let accumulator = accumulate?0:[];
+        let accumulator = accumulate ? 0 : [];
         for (summation[0] = Nums.parseFloat(start); summation[0] < summation[1]; summation[0]++) {
             // console.log(accumulator)
-            if(accumulate)accumulator += runCommands(string);
+            if (accumulate) accumulator += runCommands(string);
             else accumulator.push(runCommands(string));
 
         }
@@ -545,7 +545,7 @@ var funcs = {
 
         // this fucking sucks lmao
         async function t(image) {
-            arr = await image.toBuffer({ resolveWithObject: true })
+            arr = await image.toBuffer({ resolveWithObject: true });
             if (typeof x == "object") {
                 for (h of x) {
                     loc = (arr.info.width * Nums.parseInt(y * 3)) + Nums.parseInt(h * 3);
@@ -567,12 +567,12 @@ var funcs = {
                     if (typeof r == "object") {
                         inc_y = +(y == -1);
                         inc_x = +(x == -1);
-                        iy = y
-                        ix = x
+                        iy = y;
+                        ix = x;
                         for (h of r) {
                             loc = (arr.info.width * Nums.parseInt(iy * 3)) + Nums.parseInt(ix * 3);
-                            iy += inc_y
-                            ix += inc_x
+                            iy += inc_y;
+                            ix += inc_x;
 
                             arr.data[loc] = h;
                             arr.data[loc + 1] = h;
@@ -592,7 +592,7 @@ var funcs = {
         return sp(t)(img);
     },
     "print": function (image, name) {
-        image.toFile(name)
+        image.toFile(name);
 
     },
     "char": function (number) {
@@ -606,11 +606,11 @@ var funcs = {
 }
 
 if (process.argv[2] == undefined) {
-    console.log("please enter a filename in arguments")
+    console.log("please enter a filename in arguments");
     process.exit();
 }
 
-code = fs.readFileSync(process.argv[2], { encoding: "utf8" })
+code = fs.readFileSync(process.argv[2], { encoding: "utf8" });
 
 
 
@@ -625,7 +625,7 @@ function runCommands(input) { // starting function
     }
 
     if (input.match(/^[0-9]+/g) != null) { // if its a number..
-        return parseInt(input)
+        return parseInt(input);
     }
 
 
@@ -634,7 +634,7 @@ function runCommands(input) { // starting function
 
 // helper function to deal with the daunting task of nested items
 const splitCom = (s, item = ",") => [...s].map(c => c == item & !(a += ("\0\0()\0\0".indexOf(c) + 4) % 7 - 3) ? `
-`: c, a = 0).join``
+`: c, a = 0).join``;
 
 function runFunc(input) { // main function handler
     let getFunc = input.split("(")[0]; // get function name
@@ -642,10 +642,10 @@ function runFunc(input) { // main function handler
     curFunc = getFunc; // debug it!
 
     // get all of the args for the command, which could include more functions, so we need to handle for that
-    let getArg = splitCom(input.replace(input.match(/\w+\(/g)[0], "").slice(0, -1)).split("\n")
+    let getArg = splitCom(input.replace(input.match(/\w+\(/g)[0], "").slice(0, -1)).split("\n");
 
     // filter out garbage that appears through that (This won't cause problems)
-    getArg = getArg.filter(x => x != undefined && x != ",")
+    getArg = getArg.filter(x => x != undefined && x != ",");
 
     // make sure all arguments are fufilled
     if (funcs[getFunc].length > getArg.filter(x => x != '' && x != undefined).length) {
@@ -654,11 +654,12 @@ function runFunc(input) { // main function handler
 
     // run the command! this function will run recursively if theres nested-
     // functions, so we need to return to get the output of those
-    return funcs[getFunc](...getArg.map(x => runCommands(x, true)))
+    return funcs[getFunc](...getArg.map(x => runCommands(x, true)));
 }
 
 // main code
 codeSp = code.split(/(?<!");.+(?!")$/gm).join("").split("\n").map(x => x.trim());
+
 for (i = 0; i < codeSp.length; i++) {
-    runCommands(codeSp[i])
+    runCommands(codeSp[i]);
 }
