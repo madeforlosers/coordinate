@@ -601,6 +601,9 @@ var funcs = {
     "code": function (string,id=0) {
         return string.charCodeAt(id);
     },
+    "edit": function (string,id,text) {
+        return string.toSpliced(id,1,text);
+    },
     "random": function () {
         return Math.random();
     },

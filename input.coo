@@ -1,1 +1,3 @@
-puts(single(split("dark light"," "),and(xor(code(push(ask(">")),0),code(get(0),1)),1)))
+push(split(ask(">"),empty()))
+push("abcdefgh")
+puts(edit(edit(get(0),0,str(find(get(1),single(get(0),0)))),get(0)))
