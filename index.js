@@ -621,7 +621,7 @@ var funcs = {
     },
     "code": function (string,id=0) {
         if(typeof string == "object"){
-            return string.map(x=>x.charCodeAt(0));
+            return string.map(x=>x.charCodeAt(id));
         }
         return string.charCodeAt(id);
     },
