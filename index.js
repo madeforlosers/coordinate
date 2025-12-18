@@ -168,12 +168,21 @@ var funcs = {
         return number1 * number2;
     },
     "and": function (number1, number2) {
+        if (typeof number1 == 'object') {
+            return number1.map(x => x & number2);
+        }
         return number1 & number2;
     },
     "or": function (number1, number2) {
+        if (typeof number1 == 'object') {
+            return number1.map(x => x | number2);
+        }
         return number1 | number2;
     },
     "xor": function (number1, number2) {
+        if (typeof number1 == 'object') {
+            return number1.map(x => x ^ number2);
+        }
         return number1 ^ number2;
     },
     "not": function (number) {
@@ -270,6 +279,9 @@ var funcs = {
         return Math.max(...arguments.map(x => Nums.parseFloat(x)));
     },
     "get": function (index) {
+        if(typeof index =="object"){
+            return index.map(x=>memory.get(x));
+        }
         return memory.get(index);
     },
     "else": function () {
@@ -500,6 +512,12 @@ var funcs = {
         }
         return list[Nums.parseInt(index)];
     },
+    "count": function (item, thing) {
+        if (typeof item == "number") {
+            throwError(2);
+        }
+        return item.split(thing).length - 1;
+    },
     "reverse": function (string) {
         if (typeof string == "object") {
             return string.reverse();
@@ -596,13 +614,26 @@ var funcs = {
 
     },
     "char": function (number) {
+        if(typeof number == "object"){
+            return number.map(x=>String.fromCharCode(x))
+        }
         return String.fromCharCode(Nums.parseInt(number));
     },
     "code": function (string,id=0) {
+        if(typeof string == "object"){
+            return string.map(x=>x.charCodeAt(0));
+        }
         return string.charCodeAt(id);
     },
     "edit": function (string,id,text) {
+        if(typeof string == "number"){
+            throwError(2);
+        }
+        if(typeof string == "object"){
         return string.toSpliced(id,1,text);
+        }
+        return string.split("").toSpliced(id,1,text).join("");
+
     },
     "random": function () {
         return Math.random();

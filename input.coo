@@ -1,3 +1,6 @@
-push(split(ask(">"),empty()))
-push("abcdefgh")
-puts(edit(edit(get(0),0,str(find(get(1),single(get(0),0)))),get(0)))
+puts(single(split("dark light"," "),and(xor(code(push(ask(">")),0),code(get(0),1)),1)))    ; packed
+                                                 push(ask(">"))                            ; get input, push to list
+                                        xor(code(              ,0),code(get(0),1))         ; bitwise XOR char code of both characters in input
+                                    and(                                          ,1)      ; bitwise AND the result by 1
+     single(split("dark light"," "),                                                 )     ; if result is 0, return dark. else, return light
+puts(                                                                                 )    ; finally, output
