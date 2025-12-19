@@ -387,7 +387,7 @@ var funcs = {
     },
     "endwhile": function () {
         let skip = 0;
-        for (let h = i; h > 0; h--) {
+        for (let h = i; h >= 0; h--) {
             if (codeSp[h].split("(")[0] == "endwhile") {
                 skip++;
             }
@@ -395,7 +395,7 @@ var funcs = {
                 skip--;
             }
             if (codeSp[h].split("(")[0] == "while" && skip == 0) {
-                i = h - 1;
+                i = h-1;
                 break;
             }
         }

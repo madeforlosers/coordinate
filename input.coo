@@ -1,6 +1,3 @@
-puts(single(split("dark light"," "),and(xor(code(push(ask(">")),0),code(get(0),1)),1)))    ; packed
-                                                 push(ask(">"))                            ; get input, push to list
-                                        xor(code(              ,0),code(get(0),1))         ; bitwise XOR char code of both characters in input
-                                    and(                                          ,1)      ; bitwise AND the result by 1
-     single(split("dark light"," "),                                                 )     ; if result is 0, return dark. else, return light
-puts(                                                                                 )    ; finally, output
+while(1)
+putsin(char(add(47,multiply(45,round(random())))))
+endwhile()
