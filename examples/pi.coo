@@ -1,0 +1,9 @@
+; generates pi to 10000 digits (accurately!)
+; suprisingly really fast
+
+push(push(multiply(bigint(2),exp(bigint(10),bigint(10000)))))
+push(bigint(50000))
+while(set(2,subtract(get(2),bigint(1))))
+set(0,divide(multiply(add(get(0),get(1)),get(2)),subtract(get(2),multiply(bigint("-1"),add(get(2),bigint(1))))))
+endwhile()
+puts(add("3.",cut(str(get(0)),1)))

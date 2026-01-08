@@ -268,6 +268,12 @@ var funcs = {
         }
         return Nums.parseInt(number);
     },
+    "log": function (number,base = 10) {
+        if (typeof number == 'object') {
+            return number.map(x => Math.log(x));
+        }
+        return Math.log(Nums.parseFloat(base)) / Math.log(Nums.parseFloat(number));
+    },
     "abs": function (number) {
         if (typeof number == 'object') {
             return number.map(x => Math.abs(x));
