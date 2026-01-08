@@ -1,0 +1,36 @@
+push(0)      ; x coord
+push(0)      ; y coord
+set(8,2000)  ; size of image
+
+push(image(get(8),get(8)))            ; image var
+
+while(less(get(0),get(8)))            ; loop through Y
+
+set(1,0)                              ; reset x coord
+set(5,set(4,set(3,copy(255,get(8))))) ; buffer lists to make image generation faster
+                                      ; contains the content of the red channel 
+while(less(get(1),get(8)))            ; loop through X
+
+set(6,multiply(2,round(random())))  ; random number, multiply by 2
+set(add(3,get(6)),edit(get(add(3,get(6))),add(get(1),2),0))    ; layer 1
+set(4,edit(get(4),add(get(1),1),0))                            ; layer 2
+set(subtract(5,get(6)),edit(get(subtract(5,get(6))),get(1),0)) ; layer 3
+
+set(1,add(get(1),3))  ; increment
+endwhile()
+
+set(7,int("-1"))      ; this annoys me but i dont want to fix it lol
+
+ ; apply buffer lists to current row*3
+ ; one line to make it faster
+set(2,pixel(pixel(pixel(get(2),get(7),get(0),get(3)),get(7),add(get(0),1),get(4)),get(7),add(get(0),2),get(5)))
+
+ ; status output
+puts(ansi("2J"))
+puts(ansi("H"))
+puts("Generating maze...")
+putsin(ansi("3;1H"))
+puts(add(fix(multiply(divide(get(0),get(8)),100),1),"%")) ; get percentage
+set(0,add(get(0),3))
+endwhile()
+print(get(2),"out.png") ; finally, print it out to out.png

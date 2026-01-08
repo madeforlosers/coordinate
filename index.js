@@ -27,6 +27,44 @@ function throwError(errornum) {
     process.exit()
 }
 
+function stripInlineComments(code) { // thanks to my friend for this
+  let result = "";
+  let inString = false;
+  let stringChar = null;
+
+  for (let i = 0; i < code.length; i++) {
+    const char = code[i];
+
+    // Toggle string mode
+    if ((char === '"')) {
+      if (!inString) {
+        inString = true;
+        stringChar = char;
+      } else if (char === stringChar) {
+        inString = false;
+        stringChar = null;
+      }
+      result += char;
+      continue;
+    }
+
+    // If semicolon outside a string, skip until newline
+    if (char === ";" && !inString) {
+      while (i < code.length && code[i] !== "\n") {
+        i++;
+      }
+      // Preserve newline if present
+      if (i < code.length) result += "\n";
+      continue;
+    }
+
+    result += char;
+  }
+
+  return result;
+}
+
+
 
 class Nums {
     // number class so we can handle erroring better
@@ -247,6 +285,12 @@ var funcs = {
             return number.map(x => Math.round(Nums.parseFloat(x)));
         }
         return Math.round(Nums.parseFloat(number));
+    },
+    "fix": function (number,digits) {
+        if (typeof number == 'object') {
+            return number.map(x => Nums.parseFloat(x).toFixed(digits));
+        }
+        return Nums.parseFloat(number).toFixed(digits)
     },
     "ceil": function (number) {
         if (typeof number == 'object') {
@@ -638,6 +682,9 @@ var funcs = {
     "random": function () {
         return Math.random();
     },
+    "ansi":function(escape){
+        return `\x1b[${escape}`
+    }
 
 
 }
@@ -695,7 +742,7 @@ function runFunc(input) { // main function handler
 }
 
 // main code
-codeSp = code.split(/(?<!");.+(?!")$/gm).join("").split("\n").map(x => x.trim());
+codeSp = stripInlineComments(code).split("\n").map(x => x.trim());
 
 for (i = 0; i < codeSp.length; i++) {
     runCommands(codeSp[i]);
