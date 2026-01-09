@@ -253,6 +253,18 @@ var funcs = {
         }
         return number1 ** number2;
     },
+    "tobase": function (number1, base) {
+        if (typeof number1 == 'object') {
+            return number1.map(x => Nums.parseFloat(x).toString(base));
+        }
+        return Nums.parseFloat(number1).toString(base);
+    },
+    "todec": function (number1, base) {
+        if (typeof number1 == 'object') {
+            return number1.map(x => parseInt(x,base));
+        }
+        return parseInt(number1,base)
+    },
     "root": function (number1, number2) {
         if (Nums.parseFloat(number2) == 0) {
             throwError(3);
