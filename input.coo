@@ -1,1 +1,1 @@
-puts(count(tobase(xor(push(int(ask(">"))),rightshift(get(0),1)),2),"1"))
+puts(summation("sum(split(cut(get(0),0,add(1,sumvar(0))),empty()))",0,length(push(ask(">")))))

@@ -20,6 +20,7 @@ function throwError(errornum) {
         "Nested summation", // 5
         "Ambiguous error :(", // 6
         "Item is undefined, maybe invalid char in string?", // 7
+        "Unknown command", // 8
 
     ]
     console.log(`ERROR ${errornum}: ${errors[errornum]}\nat line ${i + 1} at command ${curFunc}`)
@@ -740,12 +741,14 @@ const splitCom = (s, item = ",") => [...s].map(c => c == item & !(a += ("\0\0()\
 
 function runFunc(input) { // main function handler
     let getFunc = input.split("(")[0]; // get function name
-
+    if(funcs[getFunc] == undefined){
+        throwError(8);
+    }
     curFunc = getFunc; // debug it!
 
     // get all of the args for the command, which could include more functions, so we need to handle for that
     let getArg = splitCom(input.replace(input.match(/\w+\(/g)[0], "").slice(0, -1)).split("\n");
-
+    
     // filter out garbage that appears through that (This won't cause problems)
     getArg = getArg.filter(x => x != undefined && x != ",");
 
